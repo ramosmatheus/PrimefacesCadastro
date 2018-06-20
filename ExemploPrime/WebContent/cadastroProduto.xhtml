@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head></h:head>
+<body>
+	<h:form id="formFormularioProduto">
+		<h:panelGrid columns="2">
+			<h:outputText value="Descrição" />
+			<p:inputText value="#{produtoMB.produto.descricao}" />
+			<h:outputText value="Valor" />
+			<p:inputText value="#{produtoMB.produto.valor}" />
+			<p:commandButton value="Inserir"
+				actionListener="#{produtoMB.inserir()}"
+				update="formTabelaProduto, @form" />
+		</h:panelGrid>
+	</h:form>
+
+	<h:form id="formTabelaProduto">
+		<p:dataTable var="prod" value="#{produtoMB.produtos}">
+			<p:column headerText="Descrição">
+				<h:outputText value="#{prod.descricao}" />
+			</p:column>
+			<p:column headerText="Valor">
+				<h:outputText value="#{prod.valor}" />
+			</p:column>
+			<p:column headerText="Opções">
+
+				<p:commandButton value="Alterar" update="formFormularioProduto">
+
+					<f:setPropertyActionListener value="#{prod}"
+						target="#{produtoMB.produto}" />
+
+				</p:commandButton>
+				<p:commandButton value="Excluir" update="@form"
+					actionListener="#{produtoMB.excluir(prod.id)}">
+					<p:confirm header="Confirmation" message="Você tem certeza disso?"
+						icon="ui-icon-alert" />
+
+				</p:commandButton>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+					<p:commandButton value="Sim" type="button"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+				</p:confirmDialog>
+			</p:column>
+
+		</p:dataTable>
+	</h:form>
+
+</body>
+</html>
